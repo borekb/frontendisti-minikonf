@@ -10,29 +10,41 @@ var autoprefixer = require( 'gulp-autoprefixer' ),
 	sourcemaps = require( 'gulp-sourcemaps' ),
 	uglify = require( 'gulp-uglify' ),
 	watchify = require( 'watchify' ),
-	watch = require( 'gulp-watch' );
+	watch = require( 'gulp-watch' ),
+	rename = require("gulp-rename");
 
-gulp.task( 'react', function() {
-	return gulp.src( 'components/picard.jsx' )
-		.pipe( react() )
-		.pipe( gulp.dest( 'js' ) );
-});
+// gulp.task( 'react', function() {
+// 	return gulp.src( 'components/picard.jsx' )
+// 		.pipe( react() )
+// 		.pipe( gulp.dest( 'js' ) );
+// });
 
-var bundler = browserify( './components/picard.jsx' );
-bundler.transform( reactify );
 
-gulp.task( 'js', bundle );
-// bundler.on( 'update', bundle );
+gulp.task( 'js', function() {
 
-function bundle() {
+	var bundler = browserify();
+	bundler.transform( reactify );
+	bundler.add('./components/picard.jsx');
+
+
 	return bundler.bundle()
 		// .on( 'error', gutil.log.bind( gutil, 'Browserify Error' ) )
-		.pipe( source( 'picard.js' ) )
+		.pipe( source( './components/picard.jsx' ) )
 			// .pipe( buffer() )
 			// .pipe( sourcemaps.init( { loadMaps: true } ) )
 			// .pipe( sourcemaps.write( './' ) )
-		.pipe( gulp.dest( './' ) );
-}
+		.pipe( gulp.dest( './js' ) );
+} );
+// bundler.on( 'update', bundle );
+
+gulp.task('jsx', ['js'], function() {
+	return gulp.src('./js/components/picard.jsx')
+		.pipe(rename('picard.js'))
+		.pipe(gulp.dest('./'));
+});
+
+
+
 
 gulp.task('sass', function () {
 	return gulp.src('scss/style.scss')

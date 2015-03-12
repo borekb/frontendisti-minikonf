@@ -15,6 +15,7 @@ Content = React.createClass({
 	loadPostsFromServer: function() {
 		var postData = JSON.parse( localStorage.getItem( this.props.url ) );
 		console.log( postData );
+		postData = null;
 		if ( postData ) {
 			this.setState({data: postData});
 		} else {

@@ -116,7 +116,6 @@ function picard_montserrat_font_url() {
 }
 
 function picard_scripts() {
-	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/components/_shared/genericons/genericons.css', array(), '3.3' );
 
 	wp_enqueue_style( 'picard-style', get_stylesheet_uri(), '20141230' );
 
